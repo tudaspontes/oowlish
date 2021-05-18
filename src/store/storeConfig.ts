@@ -1,21 +1,17 @@
-import { applyMiddleware, combineReducers, compose, createStore } from "redux";
+import { applyMiddleware, combineReducers, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
-import rootReducer from "./rootReducer";
+import rootReducer from "./rootReducer.js";
 
-let composeEnhancers = compose;
-
-if (process.env.NODE_ENV !== "production") {
-  composeEnhancers =
-    (typeof window !== "undefined" &&
-      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
-    compose;
-}
+export const combineReducersType = combineReducers({
+  rootReducer,
+});
 
 const store = createStore(
-  combineReducers({
-    rootReducer,
-  }),
-  composeEnhancers(applyMiddleware(thunk))
+  combineReducersType,
+  composeWithDevTools(applyMiddleware(thunk))
 );
+
+export type RootState = ReturnType<typeof store.getState>;
 
 export { store };
