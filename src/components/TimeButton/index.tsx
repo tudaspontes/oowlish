@@ -1,34 +1,47 @@
-import { ReactNode, useState } from 'react'
-import { Container } from "./styles"
+import { useDispatch, useSelector } from "react-redux";
+import { setTimeAction } from "../../store/actionCreator";
+import { RootState } from "../../store/storeConfig";
+import { Container } from "./styles";
 
 interface TimeButtonProps {
-  status: number;
-  children: ReactNode;
+  statusIni: number;
 }
 
-export function TimeButton({}:TimeButtonProps) {
-  const [status, setStatus] = useState(0)
+export function TimeButton({ statusIni }: TimeButtonProps) {
+  const dispatch = useDispatch();
+
+  const time = useSelector((state: RootState) => state.rootReducer);
 
   function handleButton() {
-    setStatus(status + 1)
+    dispatch(setTimeAction(new Date().getTime()));
   }
 
-  return(
+  console.log("time:", time);
+
+  return (
     <Container>
-      {(status === 0) &&
-      <button onClick={handleButton}>Entry Time</button>}
-      
-      {(status === 1) &&
-      <button onClick={handleButton}>Begin Launch Break</button>}
+      {statusIni === 0 && (
+        <button type="button" onClick={handleButton}>
+          Entry Time
+        </button>
+      )}
 
-      {(status === 2) &&
-      <button onClick={handleButton}>End Launch Break</button>}
+      {statusIni === 1 && (
+        <button onClick={handleButton}>Begin Launch Break</button>
+      )}
 
-      {(status === 3) &&
-      <button onClick={handleButton}>Exit Time</button>}
+      {statusIni === 2 && (
+        <button onClick={handleButton}>End Launch Break</button>
+      )}
 
-      {(status >= 4) &&
-      <button onClick={handleButton} disabled> See you tomorrow 😉 </button>}
+      {statusIni === 3 && <button onClick={handleButton}>Exit Time</button>}
+
+      {statusIni >= 4 && (
+        <button onClick={handleButton} disabled>
+          {" "}
+          See you tomorrow 😉{" "}
+        </button>
+      )}
     </Container>
   );
 }
