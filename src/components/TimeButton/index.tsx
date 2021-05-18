@@ -13,7 +13,7 @@ export function TimeButton({ statusIni }: TimeButtonProps) {
   const time = useSelector((state: RootState) => state.rootReducer);
 
   function handleButton() {
-    dispatch(setTimeAction(1));
+    dispatch(setTimeAction(new Date().getTime()));
   }
 
   console.log("time:", time);

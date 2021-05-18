@@ -1,5 +1,5 @@
 let stateInicial = {
-  time: 0,
+  time: new Date().getTime(),
 };
 
 export default function rootReducer(state = stateInicial, action) {
