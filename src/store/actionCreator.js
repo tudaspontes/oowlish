@@ -1,6 +1,6 @@
-export function setTimeAction(valor) {
+export function setTimeAction(value) {
   return {
     type: "SET_TIME",
-    valor,
+    value,
   };
 }

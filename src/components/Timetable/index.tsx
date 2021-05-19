@@ -1,10 +1,13 @@
-import { useContext } from "react";
-import { TimeTableContext } from "../../TimeTableContext";
 import { Container } from "./styles";
+import { useSelector } from "react-redux"; 
+import { RootState } from "../../store/storeConfig";
+import { format } from 'date-fns-tz'
 
 export function TimeTable() {
-  const {timeTables} = useContext(TimeTableContext)
-
+  const { timeTables }: any = useSelector((state: RootState) => state.rootReducer);
+  console.log('timeTables:', timeTables);
+  
+  
   return(
     <Container>
       <table>
@@ -20,29 +23,25 @@ export function TimeTable() {
         </thead>
 
         <tbody>
-          {timeTables.map(timeTable => (
-            <tr key={timeTable.id}>
-              <td>{new Intl.DateTimeFormat().format(
-                new Date(timeTable.day)
-                )}
+          {timeTables.map((timeTable: any, index: number) => (
+            <tr key={index}>
+              <td>{timeTable.day ?  
+                format(timeTable.day, "P") : "-"}
               </td>
-              <td className="entry">{new Intl.DateTimeFormat('US-EN', {
-                timeStyle: 'medium'
-                }).format(
-                new Date(timeTable.entry)
-                )}
+              <td>{timeTable.entry ?  
+                format(timeTable.entry, "pp") : "-"}
               </td>
-              <td>{timeTable.launchbreak} min</td>
-              <td>{new Intl.DateTimeFormat('US-EN', {
-                timeStyle: 'medium'
-                }).format(
-                new Date(timeTable.exit)
-                )}
+              <td>{timeTable.launchBreakStart ?  
+                format(timeTable.launchBreakStart, "pp") : "-"}
               </td>
-              <td>{new Intl.DateTimeFormat('US-EN', {
-                timeStyle: 'medium'
-                }).format(timeTable.worked)
-                }
+              <td>{timeTable.launchBreakEnd ?  
+                format(timeTable.launchBreakEnd, "pp") : "-"}
+              </td>
+              <td>{timeTable.exit ?  
+                format(timeTable.exit, "pp") : "-"}
+              </td>
+              <td>{timeTable.worked ?  
+                format(timeTable.worked, "mm:ss") : "-"}
               </td>
             </tr>
           ))}

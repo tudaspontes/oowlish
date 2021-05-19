@@ -1,5 +1,5 @@
 let stateInicial = {
-  time: new Date().getTime(),
+  timeTables: [{ passo: 1}]
 };
 
 export default function rootReducer(state = stateInicial, action) {
@@ -11,7 +11,7 @@ export default function rootReducer(state = stateInicial, action) {
     case "SET_TIME":
       return {
         ...state,
-        time: action.valor,
+        timeTables: action.value,
       };
 
     default:
